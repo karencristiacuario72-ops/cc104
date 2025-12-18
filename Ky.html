@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Data Structures & Algorithms Interactive Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ky.css" />
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-left">
+    <span class="title aesthetic-title">Data Structures & Algorithms Interactive Platform</span>
+  </div>
+  <button class="btn-primary" onclick="toggleCompiler()">Compiler</button>
+</header>
+
+<section class="hero">
+  <h1 class="aesthetic-hero">Data Structures & Algorithms Interactive Platform</h1>
+  <span class="badge">9 members / Group Project</span>
+</section>
+
+<section class="container">
+
+  <div class="panel">
+    <h2>Algorithms</h2>
+    <div class="grid">
+      <div class="card" onclick="showAlgo('Binary Search','O(log n)','Search in sorted array')">Binary Search</div>
+      <div class="card" onclick="showAlgo('Bubble Sort','O(n²)','Repeated swapping')">Bubble Sort</div>
+      <div class="card" onclick="showAlgo('Quick Sort','O(n log n)','Divide & conquer')">Quick Sort</div>
+      <div class="card" onclick="showAlgo('Merge Sort','O(n log n)','Recursive sorting')">Merge Sort</div>
+      <div class="card" onclick="showAlgo('Deapth first search','O(V+E)','Depth traversal')">DFS</div>
+      <div class="card" onclick="showAlgo('Breadth first search','O(V+E)','Level traversal')">BFS</div>
+      <div class="card" onclick="showAlgo('Dijkstra','O(E log V)','Shortest path')">Dijkstra</div>
+      <div class="card" onclick="showAlgo('Kruskal','O(E log E)','Minimum spanning tree')">Kruskal</div>
+      <div class="card" onclick="showAlgo('Insertion Sort','O(n²)','Insert element')">Insertion Sort</div>
+      <div class="card" onclick="showAlgo('Selection Sort','O(n²)','Select minimum')">Selection Sort</div>
+    </div>
+    <p id="algoInfo" class="info"></p>
+  </div>
+
+  <!-- DATA STRUCTURES -->
+  <div class="panel">
+    <h2>Data Structures</h2>
+
+    <h3>Stack</h3>
+    <input id="stackInput" placeholder="Enter value">
+    <button onclick="pushStack()">Push</button>
+    <button onclick="popStack()">Pop</button>
+    <p id="stackDisplay"></p>
+
+    <h3>Queue</h3>
+    <input id="queueInput" placeholder="Enter value">
+    <button onclick="enqueue()">Enqueue</button>
+    <button onclick="dequeue()">Dequeue</button>
+    <p id="queueDisplay"></p>
+
+    <h3>Array</h3>
+    <button onclick="showArray()">Show Sample Array</button>
+    <p id="arrayDisplay"></p>
+
+    <h3>Tree Traversal</h3>
+    <button onclick="showTraversal('inorder')">Inorder</button>
+    <button onclick="showTraversal('preorder')">Preorder</button>
+    <button onclick="showTraversal('postorder')">Postorder</button>
+    <p id="treeDisplay"></p>
+
+    <h3>Infix → Postfix</h3>
+    <input id="infixInput" placeholder="Example: A+B*C">
+    <button onclick="convertPostfix()">Convert</button>
+    <p id="postfixDisplay"></p>
+
+  </div>
+
+</section>
+
+
+<section class="container">
+  <div class="panel">
+    <h2>Group Members</h2>
+    <p class="info">DSA Group Project – 9 Members</p>
+    <div class="grid">
+      <div class="card">Leader<br><small>Fernandez, Jinky</small></div>
+      <div class="card"><br>Members:<small>Arellano, Mark</small></div>
+      <div class="card"><br>Members:<small>Curio, Karen Cristia</small></div>
+      <div class="card"><br>Members:<small>Castillo, Daniel Micheal</small></div>
+      <div class="card"><br>Members:<small>Gamboa, Cyborce John</small></div>
+      <div class="card"><br>Members:<small>Gamboa, Rommel</small></div>
+      <div class="card"><br>Members:<small>Laroya, Melissa</small></div>
+      <div class="card"><br>Members:<small>Obedoza, Denver</small></div>
+    </div>
+  </div>
+</section>
+
+<div id="compiler" class="compiler">
+  <iframe src="https://www.programiz.com/python-programming/online-compiler/"></iframe>
+</div>
+
+<footer>
+  DSA Group Project • Hosted on Netlify
+</footer>
+
+<script>
+let stack = [];
+let queue = [];
+
+function showAlgo(name, time, desc){
+  document.getElementById('algoInfo').innerText = `${name} | ${time} | ${desc}`;
+}
+
+function pushStack(){
+  let v = document.getElementById('stackInput').value;
+  if(v) stack.push(v);
+  document.getElementById('stackDisplay').innerText = 'Stack: ' + stack.join(', ');
+}
+function popStack(){
+  stack.pop();
+  document.getElementById('stackDisplay').innerText = 'Stack: ' + stack.join(', ');
+}
+
+function enqueue(){
+  let v = document.getElementById('queueInput').value;
+  if(v) queue.push(v);
+  document.getElementById('queueDisplay').innerText = 'Queue: ' + queue.join(', ');
+}
+function dequeue(){
+  queue.shift();
+  document.getElementById('queueDisplay').innerText = 'Queue: ' + queue.join(', ');
+}
+
+function showArray(){
+  let arr=[10,20,30,40,50];
+  document.getElementById('arrayDisplay').innerText='Array: '+arr.join(', ');
+}
+
+function showTraversal(type){
+  if(type==='inorder') document.getElementById('treeDisplay').innerText='Inorder: D B E A F C';
+  if(type==='preorder') document.getElementById('treeDisplay').innerText='Preorder: A B D E C F';
+  if(type==='postorder') document.getElementById('treeDisplay').innerText='Postorder: D E B F C A';
+}
+
+function precedence(op){return op==='+'||op==='-'?1:op==='*'||op==='/'?2:0;}
+function convertPostfix(){
+  let infix=document.getElementById('infixInput').value;
+  let stack=[]; let res='';   
+  for(let c of infix){
+    if(/[A-Za-z0-9]/.test(c)) res+=c;
+    else{
+      while(stack.length && precedence(stack[stack.length-1])>=precedence(c)) res+=stack.pop();
+      stack.push(c);
+    }
+  }
+  while(stack.length) res+=stack.pop();
+  document.getElementById('postfixDisplay').innerText='Postfix: '+res;
+}
+
+function toggleCompiler(){
+  let c=document.getElementById('compiler');
+  c.style.display=c.style.display==='block'?'none':'block';
+}
+</script>
+
+</body>
+</html>
